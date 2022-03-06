@@ -18,6 +18,20 @@
             "style" : {}
         }
     ],
+      "subPackages": [{
+        //分包的根目录
+        "root": "subpkg",
+        //分包下有多少个页面
+        "pages": [{
+                    "path" : "goods_detail/goods_detail",
+                    "style" : {}
+                }
+                ,{
+                    "path" : "goods_list/goods_list",
+                    "style" : {}
+                }
+            ]
+      }],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		    "navigationBarTitleText": "品优购",
