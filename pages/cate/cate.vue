@@ -51,8 +51,10 @@
       };
     },
     onLoad() {
+      //获取屏幕可用高度
       const sysInfo = uni.getSystemInfoSync()
-      this.wh = sysInfo.windowHeight
+      //减去搜索区域的高度
+      this.wh = sysInfo.windowHeight-50
 
       this.getCateList()
     },
