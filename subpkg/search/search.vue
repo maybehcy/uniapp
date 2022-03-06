@@ -103,7 +103,8 @@
       },
       gotoGoodsList(kw) {
         uni.navigateTo({
-          url: '/subpkg/goods_list/goods_list?query=' + kw
+          // url: '/subpkg/goods_list/goods_list?query=' + kw
+          url: '/subpkg/goods_list/goods_list'
         })
       }
     },

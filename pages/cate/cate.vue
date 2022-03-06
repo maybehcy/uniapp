@@ -86,6 +86,7 @@
         //跳转到非tabbar，编程式导航
         uni.navigateTo({
           url: '/subpkg/goods_list/goods_list?cid=' + item.cat_id
+          // url: '/subpkg/goods_list/goods_list
         })
       },
       gotoSearch() {

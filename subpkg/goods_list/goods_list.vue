@@ -48,7 +48,6 @@
         //关闭下拉刷新事件
         cb && cb()
         if (res.meta.status !== 200) return uni.$showMsg()
-
         this.goodsList = [...this.goodsList, ...res.message.goods]
         console.log(this.goodsList)
         this.total = res.message.total
