@@ -46,7 +46,39 @@
 </template>
 
 <script>
+  import { mapState, mapMutations, mapGetters } from 'vuex'
 	export default {
+    computed: {
+      //购物车模块的数据，state
+      ...mapState('m_cart', []),
+      //购物车模块，getter
+      ...mapGetters('m_cart', ['total'])
+    },
+    watch: {
+      //方法1：
+      /*
+      // 使用普通函数的形式定义的 watch 侦听器，在页面首次加载后不会被调用。因此导致了商品详情页在首次加载完毕之后，不会将商品的总数量显示到商品导航区域：
+      total(newVal) {
+        const findResult = this.options.find(x => x.text === '购物车')
+        if (findResult) {
+          findResult.info = newVal
+        }
+      }
+      */
+      //方法2：
+      total: {
+        handler(newVal) {
+          //找到购物车的按钮数据
+          const findResult = this.options.find(x => x.text === '购物车')
+          //如果能找到，把最新的值给info
+          if (findResult) {
+            findResult.info = newVal
+          }
+        },
+        //立即执行该函数
+        immediate: true
+      }
+    },
 		data() {
 			return {
         //商品详情数据
@@ -59,7 +91,7 @@
           }, {
             icon: 'cart',
             text: '购物车',
-            info: 2
+            info: 0
           }],
           buttonGroup: [{
               text: '加入购物车',
@@ -80,6 +112,8 @@
       this.getGoodsDetail(goods_id)
     },
     methods:{
+      // 把 m_cart 模块中的 addToCart 方法映射到当前页面使用
+          ...mapMutations('m_cart', ['addToCart']),
       //商品详情数据
       async getGoodsDetail(goods_id) {
         const { data: res } = await uni.$http.get('/api/public/v1/goods/detail', { goods_id:goods_id })
@@ -88,7 +122,7 @@
         //把返回来的字符串Html代码的<img标签利用正则表达式的方法全局替换成<img style="display:block;"
         //又因为返回来的字符串Html代码的图片后缀名为webp，在ios手机的支持不是很好，所以利用正则表达式全局替换成jpg
         res.message.goods_introduce = res.message.goods_introduce.replace(/<img /g, '<img style="display:block;" ').replace(/webp/g, 'jpg')
-             // <img style=\"display:block;\" data-src=\"//image.suning.cn/uimg/sop/commodity/966602987133443585157120_x.jpg?from=mobile&amp;format=80q.webp\" alt=\"\" src=\"//image.suning.cn/uimg/sop/commodity/966602987133443585157120_x.jpg?from=mobile&format=80q.webp\" width=\"100%\" height=\"auto\">
+             // <img style=\"display:block;\" data-src=\"//image.suning.cn/uimg/sop/commodity/966602987133443585157120_x.jpg?from=mobile&amp;format=80q.webp\" alt=\"\" src=\             "//image.suning.cn/uimg/sop/commodity/966602987133443585157120_x.jpg?from=mobile&format=80q.webp\" width=\"100%\" height=\"auto\">
         this.goods_info = res.message
       console.log(this.goods_info)
       },
@@ -115,7 +149,27 @@
             url: '/pages/cart/cart'
           })
         }
+      },
+      //点击右侧按钮
+      buttonClick(e) {
+        //点击购物车按钮
+        if (e.content.text === '加入购物车') {
+          // 组织商品的信息对象
+          // { goods_id, goods_name, goods_price, goods_count, goods_small_logo, goods_state }
+          const goods = {
+            goods_id: this.goods_info.goods_id,
+            goods_name: this.goods_info.goods_name,
+            goods_price: this.goods_info.goods_price,
+            //自定义属性，商品数量
+            goods_count: 1,
+            goods_small_logo: this.goods_info.goods_small_logo,
+            goods_state: true
+          }
+          // 调用 addToCart 方法
+          this.addToCart(goods)
+        }
       }
+      
     }
 	}
 </script>

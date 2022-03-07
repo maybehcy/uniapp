@@ -2,6 +2,11 @@
   <view class="goods-item">
     <!-- 左侧的盒子 -->
     <view class="goods-item-left">
+      <!--表单组件 -->
+      <!-- 
+      :checked="goods.goods_state"控制是否被勾选
+       v-if="showRadio"判断是否展示radio
+       -->
       <radio :checked="goods.goods_state" color="#C00000" v-if="showRadio" @click="radioClickHandler"></radio>
       <!-- 如果某一商品没有图片，放一张默认图片 -->
       <image :src="goods.goods_small_logo || defaultPic" class="goods-pic"></image>
@@ -12,6 +17,7 @@
       <view class="goods-name">{{goods.goods_name}}</view>
       <view class="goods-info-box">
         <view class="goods-price">￥{{goods.goods_price | tofixed}}</view>
+        <!-- v-if="showNum"判断是否展示uni-number-box -->
         <uni-number-box :min="1" :value="goods.goods_count" v-if="showNum" @change="numChangeHandler"></uni-number-box>
       </view>
     </view>
@@ -50,15 +56,19 @@
       // 这是 radio 组件的 点击事件处理函数
       radioClickHandler() {
         this.$emit('radio-change', {
+          //商品id
           goods_id: this.goods.goods_id,
+          //商品的状态取反
           goods_state: !this.goods.goods_state
         })
       },
       // 监听到了 NumberBox 组件数量变化的事件
+      //输入框值改变时触发的事件，参数为输入框当前的 value
       numChangeHandler(val) {
         this.$emit('num-change', {
           goods_id: this.goods.goods_id,
-          goods_count: +val
+          //不保证val是否是一个数值，所以隐式转换成数值
+          goods_count: val-0
         })
       }
     }
@@ -67,7 +77,6 @@
 
 <style lang="scss">
   .goods-item {
-    
     width: 750rpx;
     box-sizing: border-box;
     display: flex;
@@ -101,7 +110,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-
+        flex:1;
         .goods-price {
           color: #C00000;
           font-size: 16px;
