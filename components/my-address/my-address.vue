@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="big">
     <!-- 选择收货地址的盒子 -->
     <view class="address-choose-box" v-if="JSON.stringify(address) ==='{}'">
       <button type="primary" size="mini" class="btnChooseAddress" @click="chooseAddress">请选择收货地址+</button>
@@ -109,6 +109,7 @@
 </script>
 
 <style lang="scss">
+ 
   .address-border {
     display: block;
     width: 100%;
@@ -116,10 +117,12 @@
   }
 
   .address-choose-box {
+   
     height: 90px;
     display: flex;
     justify-content: center;
     align-items: center;
+    
   }
 
   .address-info-box {

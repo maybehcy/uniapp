@@ -2,7 +2,7 @@
 	<view class="cart-container" v-if="cart.length !== 0">
     <!-- 收货地址组件 -->
     <my-address></my-address>
-    
+    <view class="content">
 		<!-- 购物车商品列表的标题区域 -->
 		<view class="cart-title">
 		  <!-- 左侧的图标 -->
@@ -12,14 +12,14 @@
 		</view>
     
     <!-- 商品列表区域 -->
-    <uni-swipe-action>
+    <uni-swipe-action >
       <block v-for="(goods, i) in cart" :key="i">
         <uni-swipe-action-item :options="options" @click="swipeItemClickHandler(goods)">
           <my-goods :goods="goods" :show-radio="true" :show-num="true" @radio-change="radioChangeHandler" @num-change="numberChangeHandler"></my-goods>
         </uni-swipe-action-item>
       </block>
     </uni-swipe-action>
-    
+    </view>
     <!-- 自定义组件 -->
     <my-settle></my-settle>
 	</view>
@@ -79,7 +79,7 @@
       //单选框改变事件
       radioChangeHandler(e){
         //e是传过来的参数
-        console.log(e)
+        console.log(e,"666")
         this.updateGoodsState(e)
       },
       //表单
@@ -98,6 +98,9 @@
 </script>
 
 <style lang="scss">
+  .content{
+ margin-bottom: 50px;
+  }
  .cart-title {
     height: 40px;
     display: flex;

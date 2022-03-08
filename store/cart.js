@@ -11,11 +11,19 @@ export default {
     //我们重新编译数据就会不见，所以要保存到本地
     // cart: []
     //页面一加载刷新就在本地内存拿到cart
-      cart: JSON.parse(uni.getStorageSync('cart') || '[]')
+      cart: JSON.parse(uni.getStorageSync('cart') || '[]'),
   }),
 
   // 模块的 mutations 方法
   mutations: {
+    //结算后，删除被选中的商品
+    deleteGoodState(state){
+      console.log("111")
+      // state.cart.forEach((item)=>{console.log(item.goods_state===true) })
+      state.cart=state.cart.filter(item=> item.goods_state===false)
+      // state.cart.filter(item=>item.goods_state===false)
+     this.commit('m_cart/saveToStorage')
+    },
     addToCart(state, goods) {
           // 根据提交的商品的Id，查询购物车中是否存在这件商品
           // 如果不存在，则 findResult 为 undefined；否则，为查找到的商品信息对象
@@ -50,6 +58,7 @@ export default {
           // 持久化存储到本地
           this.commit('m_cart/saveToStorage')
         }
+    
       },
       // 更新购物车中商品的数量
       updateGoodsCount(state, goods) {
@@ -75,7 +84,8 @@ export default {
     state.cart.forEach(x => x.goods_state = newState)
     // 持久化存储到本地
     this.commit('m_cart/saveToStorage')
-   }
+   },
+
   },
 
   // 模块的 getters 属性

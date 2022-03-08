@@ -47,7 +47,7 @@ export default {
   },
   methods:{
    // 3. 使用 mapMutations 辅助函数，把 m_cart 模块提供的 updateAllGoodsState 方法映射到当前组件中使用
-       ...mapMutations('m_cart', ['updateAllGoodsState']),
+       ...mapMutations('m_cart', ['updateAllGoodsState','deleteGoodState']),
        // 把 m_user 模块中的 updateRedirectInfo 方法映射到当前页面中使用
          ...mapMutations('m_user', ['updateRedirectInfo']),
        // label 的点击事件处理函数
@@ -164,6 +164,8 @@ export default {
              title: '支付完成！',
              icon: 'success'
            })
+           //清除购物车中选中的商品
+           this.deleteGoodState()
       },
      // 展示倒计时的提示消息事件
      showTips(n) {
