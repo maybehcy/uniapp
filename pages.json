@@ -42,7 +42,7 @@
       }],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		    "navigationBarTitleText": "品优购",
+		    "navigationBarTitleText": "shop",
 		    "navigationBarBackgroundColor": "#C00000",
 		    "backgroundColor": "#FFFFFF"
 	},
